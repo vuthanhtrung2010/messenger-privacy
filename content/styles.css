@@ -1,0 +1,30 @@
+/**
+ * Privacy Guard CSS - Blur effects and hover interactions
+ */
+
+/* Base blur effect */
+.mpg-blurred {
+  filter: blur(var(--blur-intensity, 10px));
+  transition: filter 0.3s ease;
+  user-select: none;
+}
+
+/* Hover state - unblur */
+.mpg-blurred.mpg-hover-unblur {
+  filter: blur(0px) !important;
+  user-select: auto;
+}
+
+/* Conversation/link hover - unblur all children */
+a[href^="/e2ee/t/"]:hover .mpg-blurred,
+a[href^="/t/"]:hover .mpg-blurred,
+a[href*="facebook.com"]:hover .mpg-blurred {
+  filter: blur(0px) !important;
+}
+
+/* Image aspect ratio preservation */
+img.mpg-blurred {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}

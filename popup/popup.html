@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Guard Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-icon">🛡️</div>
+      <h1 class="header-title">Privacy Guard</h1>
+    </header>
+
+    <!-- Main Toggle -->
+    <div class="main-toggle">
+      <div class="toggle-group">
+        <label class="toggle-label">
+          <span class="toggle-text">Privacy Mode</span>
+          <div class="toggle-switch">
+            <input type="checkbox" id="enabledToggle" checked>
+            <span class="toggle-slider"></span>
+          </div>
+        </label>
+        <p class="toggle-description">Master switch to enable/disable all blur effects</p>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+      <!-- Blur Options -->
+      <div class="section">
+        <h2 class="section-title">Blur Options</h2>
+        
+        <div class="option-item">
+          <label class="option-label">
+            <input type="checkbox" id="blurNames" class="option-checkbox" checked>
+            <span class="option-text">
+              <span class="option-name">Blur Names</span>
+              <span class="option-desc">Hide sender names and conversation titles</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="option-item">
+          <label class="option-label">
+            <input type="checkbox" id="blurMessages" class="option-checkbox" checked>
+            <span class="option-text">
+              <span class="option-name">Blur Messages</span>
+              <span class="option-desc">Hide message text content</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="option-item">
+          <label class="option-label">
+            <input type="checkbox" id="blurAvatars" class="option-checkbox" checked>
+            <span class="option-text">
+              <span class="option-name">Blur Avatars</span>
+              <span class="option-desc">Hide profile pictures</span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Blur Intensity -->
+      <div class="section">
+        <h2 class="section-title">Blur Intensity</h2>
+        
+        <div class="slider-container">
+          <div class="slider-header">
+            <span class="slider-label">Intensity</span>
+            <span class="slider-value" id="intensityValue">10px</span>
+          </div>
+          <input 
+            type="range" 
+            id="blurIntensity" 
+            class="slider" 
+            min="0" 
+            max="20" 
+            value="10" 
+            step="1"
+          >
+          <div class="slider-labels">
+            <span>Low (0px)</span>
+            <span>High (20px)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div class="status-message" id="statusMessage"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-text">Hover over blurred content to temporarily reveal it</p>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
