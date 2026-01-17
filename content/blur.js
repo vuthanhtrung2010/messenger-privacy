@@ -10,7 +10,8 @@ class MessengerPrivacyGuard {
     this.selectors = {
       names: ['span[dir="auto"]', 'h2', 'h3'],
       messageText: ['span[dir="auto"]', 'div[dir="auto"]'],
-      avatars: ['img', 'image']
+      avatars: ['img', 'image'],
+      videos: ['video']
     };
   }
 
@@ -89,12 +90,23 @@ class MessengerPrivacyGuard {
     return element.dataset?.visualcompletion === 'media-vc-image' || /profile|avatar/i.test(element.alt || '') || /avatar|profile/i.test(className);
   }
 
+  isVideoElement(element) {
+    if (!element || element.tagName.toLowerCase() !== 'video') return false;
+    const src = element.src || element.querySelector('source')?.src || '';
+    return src && (src.includes('blob:') || src.includes('facebook') || src.includes('fbcdn'));
+  }
+
   applyBlur(element, type) {
     if (!element || (element.classList.contains('mpg-blurred') && element.classList.contains(`mpg-blur-${type}`))) return;
     element.classList.add('mpg-blurred', `mpg-blur-${type}`);
     element.style.setProperty('--blur-intensity', `${this.settings.blurIntensity}px`);
     element.addEventListener('mouseenter', () => element.classList.add('mpg-hover-unblur'));
     element.addEventListener('mouseleave', () => element.classList.remove('mpg-hover-unblur'));
+    
+    if (element.tagName.toLowerCase() === 'video') {
+      element.addEventListener('play', () => element.classList.add('mpg-hover-unblur'));
+      element.addEventListener('pause', () => element.classList.remove('mpg-hover-unblur'));
+    }
   }
 
   removeBlur(element) {
@@ -114,6 +126,7 @@ class MessengerPrivacyGuard {
     }
     if (this.settings.blurAvatars) {
       this.findElements(this.selectors.avatars).forEach(el => this.isAvatarElement(el) && this.applyBlur(el, 'avatar'));
+      this.findElements(this.selectors.videos).forEach(el => this.isVideoElement(el) && this.applyBlur(el, 'avatar'));
     }
     this.setupConversationHover();
   }
