@@ -2,6 +2,8 @@
 
 A Chrome extension that adds intelligent privacy features to social platforms, starting with Messenger.com. Automatically blur sensitive content (names, messages, avatars) with smart hover-to-reveal functionality.
 
+Firefox: [Messenger Privacy Guard for Firefox](https://addons.mozilla.org/en-US/firefox/addon/messenger-privacy-guard/)
+
 ## ✨ Features
 
 - **🎭 Smart Content Detection**: Automatically detects and blurs:
