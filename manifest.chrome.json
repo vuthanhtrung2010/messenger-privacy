@@ -4,8 +4,7 @@
   "version": "1.0.0",
   "description": "Add privacy features to social platforms with intelligent blur controls",
   "permissions": [
-    "storage",
-    "activeTab"
+    "storage"
   ],
   "host_permissions": [
     "https://www.messenger.com/*",
