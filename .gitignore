@@ -4,3 +4,4 @@ manifest.json
 # Build artifacts
 dist/
 web-ext-artifacts/
+*.zip
