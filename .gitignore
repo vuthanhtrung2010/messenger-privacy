@@ -1,0 +1,6 @@
+# Main ext file
+manifest.json
+
+# Build artifacts
+dist/
+web-ext-artifacts/

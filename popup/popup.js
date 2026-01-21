@@ -2,6 +2,9 @@
  * Popup UI Script - Handles settings UI and communication with content script
  */
 
+// Cross-browser API alias
+const api = (typeof browser !== 'undefined' && browser.runtime) ? browser : chrome;
+
 class PopupController {
   constructor() {
     this.settings = {
@@ -47,7 +50,7 @@ class PopupController {
    */
   async loadSettings() {
     return new Promise((resolve) => {
-      chrome.storage.sync.get(['settings'], (result) => {
+      api.storage.sync.get(['settings'], (result) => {
         if (result.settings) {
           this.settings = { ...this.settings, ...result.settings };
         }
@@ -61,7 +64,7 @@ class PopupController {
    */
   async saveSettings() {
     return new Promise((resolve) => {
-      chrome.storage.sync.set({ settings: this.settings }, () => {
+      api.storage.sync.set({ settings: this.settings }, () => {
         resolve();
         this.showStatus('Settings saved!');
         this.notifyContentScript();
@@ -150,10 +153,10 @@ class PopupController {
    */
   async notifyContentScript() {
     try {
-      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      const [tab] = await api.tabs.query({ active: true, currentWindow: true });
       
       if (tab && tab.id) {
-        chrome.tabs.sendMessage(tab.id, {
+        api.tabs.sendMessage(tab.id, {
           type: 'settingsUpdated',
           settings: this.settings
         }).catch((error) => {

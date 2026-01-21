@@ -3,6 +3,9 @@
  * Detects and applies blur effects to messenger UI elements
  */
 
+// Cross-browser API alias
+const api = (typeof browser !== 'undefined' && browser.runtime) ? browser : chrome;
+
 class MessengerPrivacyGuard {
   constructor() {
     this.settings = { enabled: true, blurNames: true, blurMessages: true, blurAvatars: true, blurIntensity: 10 };
@@ -24,7 +27,7 @@ class MessengerPrivacyGuard {
 
   async loadSettings() {
     return new Promise((resolve) => {
-      chrome.storage.sync.get(['settings'], (result) => {
+      api.storage.sync.get(['settings'], (result) => {
         if (result.settings) this.settings = { ...this.settings, ...result.settings };
         resolve();
       });
@@ -154,7 +157,7 @@ class MessengerPrivacyGuard {
   }
 
   setupMessageListener() {
-    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    api.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (message.type === 'settingsUpdated') {
         this.settings = { ...this.settings, ...message.settings };
         this.removeAllBlurs();
@@ -162,7 +165,7 @@ class MessengerPrivacyGuard {
         sendResponse({ success: true });
       } else if (message.type === 'togglePrivacyMode') {
         this.settings.enabled = !this.settings.enabled;
-        chrome.storage.sync.set({ settings: this.settings });
+        api.storage.sync.set({ settings: this.settings });
         this.settings.enabled ? this.applyBlurToPage() : this.removeAllBlurs();
         sendResponse({ success: true, enabled: this.settings.enabled });
       }
