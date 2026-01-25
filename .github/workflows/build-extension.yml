@@ -1,0 +1,50 @@
+name: Build Extension Zips
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Remove trash files
+        run: |
+          find . -name '*.sh' -delete
+          rm -f *.sh
+          rm -f *~
+          rm -f .DS_Store
+
+
+      - name: Prepare dist directory
+        run: mkdir -p dist/chrome dist/firefox
+
+      - name: Prepare Chrome extension folder
+        run: |
+          cp -r content popup icons dist/chrome/
+          cp manifest.chrome.json dist/chrome/manifest.json
+          cp background.js dist/chrome/
+          cp README.md LICENSE dist/chrome/ 2>/dev/null || true
+
+      - name: Prepare Firefox extension folder
+        run: |
+          cp -r content popup icons dist/firefox/
+          cp manifest.firefox.json dist/firefox/manifest.json
+          cp background.js dist/firefox/
+          cp README.md LICENSE dist/firefox/ 2>/dev/null || true
+
+      - name: Upload Chrome extension folder
+        uses: actions/upload-artifact@v4
+        with:
+          name: messenger-privacy-chrome
+          path: dist/chrome/
+
+      - name: Upload Firefox extension folder
+        uses: actions/upload-artifact@v4
+        with:
+          name: messenger-privacy-firefox
+          path: dist/firefox/
