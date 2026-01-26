@@ -29,7 +29,10 @@
     {
       "matches": [
         "https://www.messenger.com/*",
-        "https://messenger.com/*"
+        "https://messenger.com/*",
+        "https://web.facebook.com/messages/*",
+        "https://www.facebook.com/messages/*",
+        "https://facebook.com/messages/*"
       ],
       "js": ["content/blur.js"],
       "css": ["content/styles.css"],
